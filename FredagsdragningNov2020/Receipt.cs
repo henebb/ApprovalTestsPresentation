@@ -42,6 +42,43 @@ namespace FredagsdragningNov2020
 
             return sb.ToString();
         }
+
+        public string ToHtml()
+        {
+            var sb = new StringBuilder(@"<table>
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Item price</th>
+      <th>Quantity</th>
+      <th>Amount</th>
+    </tr>
+  </thead>
+  <tbody>");
+
+            foreach (var item in Items)
+            {
+                sb.Append($@"
+    <tr>
+      <td>{item.Description}</td>
+      <td>{item.PricePerUnit:C}</td>
+      <td>{item.NumItems}</td>
+      <td>{item.NumItems * item.PricePerUnit:C}</td>
+    </tr>");
+            }
+
+            sb.Append(@$"
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan='3'>Total</td>
+      <td>{Total():C}</td>
+    </tr>
+  </tfoot>
+</table>");
+
+            return sb.ToString();
+        }
     }
 
     public class ReceiptItem

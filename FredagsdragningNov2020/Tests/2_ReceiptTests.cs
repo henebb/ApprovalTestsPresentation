@@ -5,7 +5,7 @@ using Xunit;
 
 namespace FredagsdragningNov2020.Tests
 {
-    [UseReporter(typeof(VisualStudioReporter))]
+    [UseReporter(typeof(DiffReporter))]
     [UseApprovalSubdirectory("Approvals")]
     public class ReceiptTests
     {
@@ -35,6 +35,21 @@ namespace FredagsdragningNov2020.Tests
 {"Total",-Pad}{total:C}
 ");
 #endregion
+        }
+
+        [Fact]
+        public void ReceiptHtmlTest()
+        {
+            // Arrange
+            var receipt = new Receipt();
+
+            // Act
+            receipt.AddItem("Mjölk", 10.95M, 2);
+            receipt.AddItem("Bröd", 18.5M, 1);
+            receipt.AddItem("Smör", 45.50M, 1);
+
+            // Assert
+            Approvals.VerifyHtml(receipt.ToHtml());
         }
     }
 }

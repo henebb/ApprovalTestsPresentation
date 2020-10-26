@@ -31,8 +31,13 @@ namespace FredagsdragningNov2020
             _logger.LogInformation("Sending email...");
 
             string[] to = await _settingsReader.GetSettingByKey(ToAddressType.Receipt);
-            string subject = null;
-            string body = null;
+            string subject = "Here is your receipt";
+            string body = @$"<html>
+<body>
+   <p>Hi! Here is your receipt.</p>
+   {receipt.ToHtml()}
+</body>
+</html>";
             await _emailSender.SendAsync(to, subject, body);
 
             _logger.LogInformation("Process done.");
