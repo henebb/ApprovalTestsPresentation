@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FredagsdragningNov2020
@@ -11,6 +12,8 @@ namespace FredagsdragningNov2020
     public class ReceiptStoreItem
     {
         public Guid Id { get; set; }
-
+        public IList<ReceiptItem> Items { get; set; }
+        public DateTime Created { get; set; }
+        public string Owner { get; set; }
     }
 }

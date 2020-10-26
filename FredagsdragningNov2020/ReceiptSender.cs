@@ -7,21 +7,21 @@ namespace FredagsdragningNov2020
     {
         private readonly IReceiptStorage _receiptStorage;
         private readonly IEmailSender _emailSender;
-        private readonly ISettingsReader _settingsReader;
+        private readonly IUserProfileReader _userProfileReader;
         private readonly ILogger _logger;
         private readonly Func<DateTime> _nowProvider;
 
         public ReceiptSender(
             IReceiptStorage receiptStorage,
             IEmailSender emailSender,
-            ISettingsReader settingsReader,
+            IUserProfileReader userProfileReader,
             ILogger logger,
             Func<DateTime> nowProvider
         )
         {
             _receiptStorage = receiptStorage;
             _emailSender = emailSender;
-            _settingsReader = settingsReader;
+            _userProfileReader = userProfileReader;
             _logger = logger;
             _nowProvider = nowProvider;
         }
@@ -38,22 +38,40 @@ namespace FredagsdragningNov2020
                 Id = receipt.ReceiptId,
                 Items = receipt.Items,
                 Created = _nowProvider(),
-                CreatedBy = user
+                Owner = user
             };
             await _receiptStorage.SaveAsync(receiptStoreItem);
 
-            // Send mail:
-            _logger.LogInformation("Sending email...");
+            var userSettings = await _userProfileReader.GetUserSettings(user);
 
-            string[] to = await _settingsReader.GetSettingByKey(ToAddressType.Receipt);
-            string subject = "Here is your receipt";
-            string body = @$"<html>
+            if (userSettings.ContainsKey(UserSettingKeys.ReadsReceiptsOnline) &&
+                userSettings[UserSettingKeys.ReadsReceiptsOnline].Equals(bool.TrueString, StringComparison.InvariantCultureIgnoreCase))
+            {
+                _logger.LogInformation($"User {user} reads receipts online, not sending email.");
+            }
+            else
+            {
+                if (userSettings.ContainsKey(UserSettingKeys.EmailAddresses) &&
+                    !string.IsNullOrEmpty(userSettings[UserSettingKeys.EmailAddresses]))
+                {
+                    // Send mail:
+                    _logger.LogInformation("Sending email...");
+
+                    var to = userSettings[UserSettingKeys.EmailAddresses].Split(',', StringSplitOptions.RemoveEmptyEntries);
+                    var subject = "Here is your receipt";
+                    var body = @$"<html>
 <body>
    <p>Hi! Here is your receipt.</p>
    {receipt.ToHtml()}
 </body>
 </html>";
-            await _emailSender.SendAsync(to, subject, body);
+                    await _emailSender.SendAsync(to, subject, body);
+                }
+                else
+                {
+                    _logger.LogInformation($"User {user} is missing email addresses.");
+                }
+            }
 
             _logger.LogInformation("Process done.");
         }

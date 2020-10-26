@@ -12,7 +12,7 @@ namespace FredagsdragningNov2020.Tests
     {
         private readonly IReceiptStorage _receiptStorage;
         private readonly IEmailSender _emailSender;
-        private readonly ISettingsReader _settingsReader;
+        private readonly IUserProfileReader _userProfileReader;
         private readonly ILogger _logger;
         private readonly ReceiptSender _sut;
 
@@ -23,13 +23,13 @@ namespace FredagsdragningNov2020.Tests
         {
             _receiptStorage = Substitute.For<IReceiptStorage>();
             _emailSender = Substitute.For<IEmailSender>();
-            _settingsReader = Substitute.For<ISettingsReader>();
+            _userProfileReader = Substitute.For<IUserProfileReader>();
             _logger = Substitute.For<ILogger>();
 
             _sut = new ReceiptSender(
                 _receiptStorage,
                 _emailSender,
-                _settingsReader,
+                _userProfileReader,
                 _logger,
                 () => FakeNow
             );
