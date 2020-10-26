@@ -11,16 +11,16 @@ namespace FredagsdragningNov2020
         public IList<ReceiptItem> Items { get; } = new List<ReceiptItem>();
 
         public Receipt()
-            : this (Guid.NewGuid)
+            : this (Guid.NewGuid())
         {
         }
 
-        public Receipt(Func<Guid> idProvider)
+        public Receipt(Guid id)
         {
-            ReceiptID = idProvider();
+            ReceiptId = id;
         }
 
-        public Guid ReceiptID { get; }
+        public Guid ReceiptId { get; }
 
         public void AddItem(string description, decimal pricePerUnit, int numItems)
         {
