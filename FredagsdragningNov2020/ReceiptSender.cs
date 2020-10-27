@@ -44,17 +44,20 @@ namespace FredagsdragningNov2020
 
             var userSettings = await _userProfileReader.GetUserSettings(user);
 
-            if (userSettings.ContainsKey(UserSettingKeys.ReadsReceiptsOnline) &&
-                userSettings[UserSettingKeys.ReadsReceiptsOnline].Equals(bool.TrueString, StringComparison.InvariantCultureIgnoreCase))
+            if (userSettings.IsTrue(UserSettingKeys.ReadsReceiptsOnline))
             {
                 _logger.LogInformation($"User {user} reads receipts online, not sending email.");
             }
             else
             {
-                if (userSettings.ContainsKey(UserSettingKeys.EmailAddresses) &&
-                    !string.IsNullOrEmpty(userSettings[UserSettingKeys.EmailAddresses]))
+                var toAddresses = userSettings.ListValues(UserSettingKeys.EmailAddresses);
+                if (toAddresses.Length == 0)
                 {
-                    // Send mail:
+                    _logger.LogInformation($"User {user} is missing email addresses.");
+                }
+                else
+                {
+                    // Send email:
                     _logger.LogInformation("Sending email...");
 
                     var to = userSettings[UserSettingKeys.EmailAddresses].Split(',', StringSplitOptions.RemoveEmptyEntries);
@@ -66,10 +69,6 @@ namespace FredagsdragningNov2020
 </body>
 </html>";
                     await _emailSender.SendAsync(to, subject, body);
-                }
-                else
-                {
-                    _logger.LogInformation($"User {user} is missing email addresses.");
                 }
             }
 
