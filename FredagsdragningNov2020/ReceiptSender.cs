@@ -53,7 +53,7 @@ namespace FredagsdragningNov2020
                 var toAddresses = userSettings.ListValues(UserSettingKeys.EmailAddresses);
                 if (toAddresses.Length == 0)
                 {
-                    _logger.LogInformation($"User {user} is missing email addresses.");
+                    _logger.LogError($"User {user} is missing email addresses.");
                 }
                 else
                 {
