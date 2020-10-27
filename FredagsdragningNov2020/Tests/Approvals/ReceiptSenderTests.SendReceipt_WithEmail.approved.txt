@@ -1,0 +1,87 @@
+﻿Send receipt with email
+--------------------
+
+1. Stored receipt:
+{
+  "Id": "7eec86d4-81c7-4e72-b188-0df00fb301af",
+  "Items": [
+    {
+      "Description": "Mjölk",
+      "PricePerUnit": 10.95,
+      "NumItems": 2
+    },
+    {
+      "Description": "Bröd",
+      "PricePerUnit": 18.5,
+      "NumItems": 1
+    },
+    {
+      "Description": "Smör",
+      "PricePerUnit": 45.50,
+      "NumItems": 1
+    }
+  ],
+  "Created": "2020-10-26T16:00:00Z",
+  "Owner": "Test Tester"
+}
+--------------------
+2. Sent email:
+{
+  "Subject": "Here is your receipt",
+  "SentTo": [
+    "a@b.com",
+    "x@y.com"
+  ],
+  "Body": [
+    "<html>",
+    "<body>",
+    "   <p>Hi! Here is your receipt.</p>",
+    "   <table>",
+    "  <thead>",
+    "    <tr>",
+    "      <th>Item</th>",
+    "      <th>Item price</th>",
+    "      <th>Quantity</th>",
+    "      <th>Amount</th>",
+    "    </tr>",
+    "  </thead>",
+    "  <tbody>",
+    "    <tr>",
+    "      <td>Mjölk</td>",
+    "      <td>10,95 kr</td>",
+    "      <td>2</td>",
+    "      <td>21,90 kr</td>",
+    "    </tr>",
+    "    <tr>",
+    "      <td>Bröd</td>",
+    "      <td>18,50 kr</td>",
+    "      <td>1</td>",
+    "      <td>18,50 kr</td>",
+    "    </tr>",
+    "    <tr>",
+    "      <td>Smör</td>",
+    "      <td>45,50 kr</td>",
+    "      <td>1</td>",
+    "      <td>45,50 kr</td>",
+    "    </tr>",
+    "  </tbody>",
+    "  <tfoot>",
+    "    <tr>",
+    "      <td colspan='3'>Total</td>",
+    "      <td>85,90 kr</td>",
+    "    </tr>",
+    "  </tfoot>",
+    "</table>",
+    "</body>",
+    "</html>"
+  ]
+}
+--------------------
+3. Log:
+[
+  "INFO; Handling receipt with ID 7eec86d4-81c7-4e72-b188-0df00fb301af.",
+  "INFO; Storing receipt...",
+  "INFO; Sending email...",
+  "INFO; Process done."
+]
+--------------------

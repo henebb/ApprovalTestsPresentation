@@ -1,0 +1,35 @@
+﻿Send receipt with online preference
+--------------------
+
+1. Stored receipt:
+{
+  "Id": "7eec86d4-81c7-4e72-b188-0df00fb301af",
+  "Items": [
+    {
+      "Description": "Mjölk",
+      "PricePerUnit": 10.95,
+      "NumItems": 2
+    },
+    {
+      "Description": "Bröd",
+      "PricePerUnit": 18.5,
+      "NumItems": 1
+    },
+    {
+      "Description": "Smör",
+      "PricePerUnit": 45.50,
+      "NumItems": 1
+    }
+  ],
+  "Created": "2020-10-26T16:00:00Z",
+  "Owner": "Test Tester"
+}
+--------------------
+2. Log:
+[
+  "INFO; Handling receipt with ID 7eec86d4-81c7-4e72-b188-0df00fb301af.",
+  "INFO; Storing receipt...",
+  "INFO; User Test Tester reads receipts online, not sending email.",
+  "INFO; Process done."
+]
+--------------------
