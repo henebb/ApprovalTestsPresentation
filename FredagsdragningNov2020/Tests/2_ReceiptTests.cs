@@ -5,7 +5,7 @@ using Xunit;
 
 namespace FredagsdragningNov2020.Tests
 {
-    [UseReporter(typeof(DiffReporter))]
+    [UseReporter(typeof(VisualStudioReporter))]
     [UseApprovalSubdirectory("Approvals")]
     public class ReceiptTests
     {
@@ -33,7 +33,7 @@ namespace FredagsdragningNov2020.Tests
 {Separator}
 {receipt.PrintItems(Pad)}{Separator}
 {"Total",-Pad}{total:C}
-");
+".Replace("\r", string.Empty ));
 #endregion
         }
 
