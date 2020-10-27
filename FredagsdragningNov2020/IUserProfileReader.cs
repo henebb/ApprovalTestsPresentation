@@ -6,7 +6,7 @@ namespace FredagsdragningNov2020
 {
     public interface IUserProfileReader
     {
-        Task<Dictionary<string, string>> GetUserSettings(string user);
+        Task<Dictionary<string, string>> GetUserSettingsAsync(string user);
     }
 
     public static class UserSettingKeys

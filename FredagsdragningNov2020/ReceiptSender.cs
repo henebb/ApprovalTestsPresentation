@@ -42,7 +42,7 @@ namespace FredagsdragningNov2020
             };
             await _receiptStorage.SaveAsync(receiptStoreItem);
 
-            var userSettings = await _userProfileReader.GetUserSettings(user);
+            var userSettings = await _userProfileReader.GetUserSettingsAsync(user);
 
             if (userSettings.IsTrue(UserSettingKeys.ReadsReceiptsOnline))
             {
