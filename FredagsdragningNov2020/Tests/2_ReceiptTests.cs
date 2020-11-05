@@ -9,9 +9,6 @@ namespace FredagsdragningNov2020.Tests
     [UseApprovalSubdirectory("Approvals")]
     public class ReceiptTests
     {
-        private static readonly string Separator = new string('-', 30);
-        private const int Pad = 20;
-
         [Fact]
         public void ReceiptTest()
         {
@@ -27,12 +24,14 @@ namespace FredagsdragningNov2020.Tests
 
             // Assert
 
+            #region MiseEnPlace
+            var separator = new string('-', 30);
+            const int pad = 20;
 
-#region MiseEnPlace
             Approvals.Verify(@$"Kvitto
-{Separator}
-{receipt.PrintItems(Pad)}{Separator}
-{"Total",-Pad}{total:C}
+{separator}
+{receipt.PrintItems(pad)}{separator}
+{"Total",-pad}{total:C}
 ".Replace("\r", string.Empty ));
 #endregion
         }
